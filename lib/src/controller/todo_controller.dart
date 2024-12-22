@@ -5,7 +5,6 @@ import "package:my_todo_app/src/constant/api.dart";
 import "package:my_todo_app/src/model/TodoModel.dart";
 
 class TodoController {
-  //To Add Task or Todo
   Future addTodo(TodoModel model, String token) async {
     try {
       final response = await http.post(Uri.parse(addTodoUrl),
@@ -44,33 +43,70 @@ class TodoController {
   }
 
 //To Update Task or Todo
-  Future updateTodo() async {}
-  //To Delete Task or Todo
-  Future deleteTodo() async {}
-  //To Toggle between task completed or not
-  Future<void> toggleTaskCompleted(
-      String userId, String todoId, String token) async {
-    final _url = Uri.parse(toggle + userId + todoId);
-    print(userId);
-    print(todoId);
+  Future<bool> updateTodo(
+      String title, String userId, String todoId, String token) async {
+    final url = Uri.parse('${updateTodoUrl}$userId/$todoId');
+    print(url);
     try {
       final response = await http.put(
-        _url,
+        url,
+        body: json.encode({"title": title}),
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
+          "Authorization": "Bearer $token",
+          "Content-Type": "application/json",
         },
       );
 
       if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        // Update the local task list
-        print(responseData);
+        print('Todo updated successfully.');
+        return true;
       } else {
-        print("Error: ${response.statusCode}, ${response.body}");
+        print('Failed to update todo: ${response.body}');
+        return false;
       }
-    } catch (error) {
-      print("Error: $error");
+    } catch (e) {
+      print('Error updating todo: $e');
+      return false;
+    }
+  }
+
+  //To Delete Task or Todo
+  Future deleteTodo(String userId, String todoId, String token) async {
+    final url = Uri.parse(
+      '${deleteTodoUrl}$userId/$todoId',
+    );
+    print(url);
+    try {
+      final response = await http.delete(url, headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print('Todo deleted successfully: ${data['todo']}');
+      } else {
+        print('Failed to delete todo: ${response.body}');
+      }
+    } catch (e) {
+      print('Error toggling todo: $e');
+    }
+  }
+
+  Future<void> toggleTodo(String userId, String todoId) async {
+    final url = Uri.parse('${toggle}$userId/$todoId');
+    print(url);
+    try {
+      final response = await http.put(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print('Todo updated successfully: ${data['todo']}');
+      } else {
+        print('Failed to update todo: ${response.body}');
+      }
+    } catch (e) {
+      print('Error toggling todo: $e');
     }
   }
 }

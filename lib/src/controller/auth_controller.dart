@@ -17,9 +17,10 @@ class AuthController {
       );
 
       if (response.statusCode == 201) {
-        return jsonDecode(response.body);
+        final data = json.decode(response.body);
+        return {'success': true, 'token': data['token']};
       } else {
-        return {'error': 'Error signing up: ${response.body}'};
+        return {'success': false, 'message': 'Sign-up failed'};
       }
     } catch (e) {
       return {'error': 'Error signing up: $e'};
@@ -37,11 +38,10 @@ class AuthController {
       );
 
       if (response.statusCode == 200) {
-        return jsonDecode(response.body);
+        final data = json.decode(response.body);
+        return {'success': true, 'token': data['token']};
       } else {
-        final responseData = jsonDecode(response.body);
-
-        return responseData;
+        return {'success': false, 'message': 'Sign-in failed'};
       }
     } catch (e) {
       return {'error': 'Error signing in: $e'};

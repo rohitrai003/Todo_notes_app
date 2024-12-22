@@ -1,38 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/controller/token_controller.dart';
+import 'package:my_todo_app/src/controller/auth_controller.dart';
 
-class UserDataPovider extends ChangeNotifier {
-  bool dataLoaded = false;
-  String name = "";
-  String email = "";
-  String userId = "";
-  getUserData(Future fetch, context, nextPage) async {
-    try {
-      final data = await fetch;
-      print(data);
+class UserDataProvider extends ChangeNotifier {
+  bool dataLoading = false;
+  final Map<String, dynamic> userDetails = {};
 
-      if (data["error"] == "Please authenticate") {
-        TokenController.token = "";
-        // notifyListeners();
-        // await Token.saveToken(Token.token);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(data["error"])));
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => nextPage,
-            ));
-      } else {
-        name = data["name"].toString();
-        email = data["email"].toString();
-        userId = data["_id"].toString();
-        print(userId);
-        dataLoaded = true;
-        notifyListeners();
-      }
-    } catch (e) {
-      dataLoaded = false;
-      notifyListeners();
-    }
+  getUserData(String token) async {
+    dataLoading = true;
+    notifyListeners();
+
+    final _data = await AuthController().fetchUserData(token);
+
+    userDetails.addAll(_data);
+    print(userDetails);
+    dataLoading = false;
+    notifyListeners();
   }
 }

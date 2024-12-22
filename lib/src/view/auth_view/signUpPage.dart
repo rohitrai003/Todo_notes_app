@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/controller/token_controller.dart';
 import 'package:my_todo_app/src/constant/appColors.dart';
 import 'package:my_todo_app/src/widgets/customTextInput.dart';
 import 'package:my_todo_app/src/constant/screenSize.dart';
-import 'package:my_todo_app/src/controller/auth_controller.dart';
 import 'package:my_todo_app/src/provider/themeDataProvider.dart';
 import 'package:my_todo_app/src/view/auth_view/signInPage.dart';
-import 'package:my_todo_app/src/view/main_view/homePage.dart';
-import 'package:provider/provider.dart';
 
-import '../../model/userSignUpModel.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({super.key});
@@ -30,37 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
         _password.text.isEmpty &&
         _fullName.text.isEmpty) {
       ScaffoldMessenger(child: Text("Please fill the above fields"));
-    } else {
-      signUpFunction();
-    }
-  }
-
-  signUpFunction() async {
-    setState(() {
-      isLoading = true;
-    });
-    try {
-      final data = await AuthController().signUp(UserModel(
-          name: _fullName.text, email: _email.text, password: _password.text));
-      user = data;
-      TokenController.token = user['token'];
-      await TokenController().saveToken(TokenController.token);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomePage(
-              token: TokenController.token,
-            ),
-          ));
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.toString()),
-      ));
-    }
-
-    setState(() {
-      isLoading = false;
-    });
+    } else {}
   }
 
   @override

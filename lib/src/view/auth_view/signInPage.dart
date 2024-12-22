@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_todo_app/src/constant/appColors.dart';
+import 'package:my_todo_app/src/provider/authProvider.dart';
 import 'package:my_todo_app/src/widgets/customTextInput.dart';
 import 'package:my_todo_app/src/constant/screenSize.dart';
-import 'package:my_todo_app/src/controller/auth_controller.dart';
-import 'package:my_todo_app/src/model/UserSignInModel.dart';
 import 'package:my_todo_app/src/provider/themeDataProvider.dart';
 import 'package:my_todo_app/src/view/auth_view/signUpPage.dart';
 import 'package:my_todo_app/src/view/auth_view/forgotPassword.dart';
-import 'package:my_todo_app/src/view/main_view/homePage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../controller/token_controller.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({super.key});
@@ -24,46 +20,11 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   late SharedPreferences prefs;
-  bool isLoading = false;
-  late Map<String, dynamic> user;
-
-  signin(BuildContext context) async {
-    if (_email.text.isEmpty || _password.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Please fill the above fields")));
-    } else {
-      setState(() {
-        isLoading = true;
-      });
-      final data = await AuthController().signIn(
-          UserSignInModel(email: _email.text, password: _password.text));
-      print("Data : $data");
-      if (data['error'] == "Invalid email or password") {
-        print(data['error']);
-      } else {
-        user = data;
-        TokenController.token = user['token'];
-        await TokenController().saveToken(TokenController.token);
-        print("Saved TokenController : ${TokenController.token}");
-      }
-      setState(() {
-        isLoading = false;
-      });
-      if (user['token'] != null) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomePage(
-                token: TokenController.token,
-              ),
-            ));
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeDataProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -157,7 +118,10 @@ class _SignInPageState extends State<SignInPage> {
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
                     child: ElevatedButton(
                         // onPressed: () => signIn(context),
-                        onPressed: () => signin(context),
+                        onPressed: () => authProvider.signIn(
+                            context: context,
+                            email: _email.text,
+                            password: _password.text),
                         style: ElevatedButton.styleFrom(
                             fixedSize: Size(screenWidth(context), 50),
                             backgroundColor: green,
@@ -166,7 +130,7 @@ class _SignInPageState extends State<SignInPage> {
                                 fontSize: 20, fontFamily: "Abeezee"),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
-                        child: isLoading == true
+                        child: authProvider.isLoading == true
                             ? Center(
                                 child: CircularProgressIndicator(
                                   color: Colors.white,

@@ -1,102 +1,102 @@
 import 'package:flutter/material.dart';
 import 'package:my_todo_app/src/constant/appColors.dart';
-import 'package:my_todo_app/src/controller/auth_controller.dart';
-import 'package:my_todo_app/src/controller/token_controller.dart';
+import 'package:my_todo_app/src/provider/token_provider.dart';
+import 'package:my_todo_app/src/provider/userDataProvider.dart';
 import 'package:my_todo_app/src/widgets/dateAndDay.dart';
 import 'package:my_todo_app/src/widgets/exitPopUpDialog.dart';
 import 'package:my_todo_app/src/constant/icons.dart';
 import 'package:my_todo_app/src/provider/bottomBarToggle.dart';
 import 'package:my_todo_app/src/provider/themeDataProvider.dart';
-import 'package:my_todo_app/src/provider/userDataProvider.dart';
 import 'package:my_todo_app/src/view/note_view/notesPage.dart';
 import 'package:my_todo_app/src/view/main_view/settingsPage.dart';
 import 'package:my_todo_app/src/view/todo_view/todoPage.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key, required this.token}) : super(key: key);
   final String token;
-  HomePage({required this.token});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  bool dataLoaded = true;
-  late Map<String, dynamic> userDetails;
-
-  Future<void> getUserData() async {
-    try {
-      final data = await AuthController().fetchUserData(TokenController.token);
-      setState(() {
-        userDetails = data;
-      });
-    } catch (e) {
-      print("Error fetching user data: $e");
-    }
-  }
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getUserData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<UserDataProvider>(context, listen: false)
+          .getUserData(widget.token);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<UserDataPovider>(context);
     final toggleProvider = Provider.of<BottomBarToggle>(context);
     final themeProvider = Provider.of<ThemeDataProvider>(context);
+    final userDataProvider = Provider.of<UserDataProvider>(context);
 
-    List pages = [
-      {"title": "Todo", "screen": TodoScreen(userId: userData.userId)},
-      {"title": "Notes", "screen": NotesScreen(userId: userData.userId)},
+    final List<Map<String, dynamic>> pages = [
+      {
+        "title": "Todo",
+        "screen": TodoScreen(
+            userId: userDataProvider.userDetails["_id"] ?? "",
+            token: widget.token)
+      },
+      {"title": "Notes", "screen": NotesScreen(userId: "userId")},
       {
         "title": "Settings",
-        "screen":
-            SettingsPage(name: userDetails["name"], email: userDetails["email"])
-      }
+        "screen": SettingsPage(
+            name: userDataProvider.userDetails["name"] ?? "",
+            email: userDataProvider.userDetails["email"] ?? "")
+      },
     ];
 
     return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) => showExitPopup(context),
+      onPopInvokedWithResult: (didPop, result) async => showExitPopup(context),
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
-          title: Text(pages[toggleProvider.index]["title"],
-              style: const TextStyle(fontSize: 35, fontFamily: "Abeezee")),
+          title: Text(
+            pages[toggleProvider.index]["title"],
+            style: const TextStyle(fontSize: 35, fontFamily: "Abeezee"),
+          ),
         ),
-        body: SafeArea(
-            child: userDetails.isEmpty
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Column(children: [
+        body: userDataProvider.dataLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SafeArea(
+                child: Column(
+                  children: [
                     dateAndDay(),
-                    Expanded(child: pages[toggleProvider.index]["screen"])
-                  ])),
+                    Expanded(
+                      child: pages[toggleProvider.index]["screen"],
+                    ),
+                  ],
+                ),
+              ),
         bottomNavigationBar: BottomNavigationBar(
-            currentIndex: toggleProvider.index,
-            onTap: toggleProvider.toggleItems,
-            selectedItemColor: themeProvider.isDark ? yellow : Colors.purple,
-            unselectedItemColor: themeProvider.isDark ? white : black,
-            items: [
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage(clipboardIcon),
-                  ),
-                  label: "Todo"),
-              // BottomNavigationBarItem(
-              //     icon: Icon(Icons.calendar_month_outlined),
-              //     label: "Upcoming Items"),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(AssetImage(notesIcon)), label: "Notes"),
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.settings), label: "Settings")
-            ]),
+          currentIndex: toggleProvider.index,
+          onTap: toggleProvider.toggleItems,
+          selectedItemColor: themeProvider.isDark ? yellow : Colors.purple,
+          unselectedItemColor: themeProvider.isDark ? white : black,
+          items: [
+            BottomNavigationBarItem(
+              icon: ImageIcon(AssetImage(clipboardIcon)),
+              label: "Todo",
+            ),
+            BottomNavigationBarItem(
+              icon: ImageIcon(AssetImage(notesIcon)),
+              label: "Notes",
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: "Settings",
+            ),
+          ],
+        ),
       ),
     );
   }

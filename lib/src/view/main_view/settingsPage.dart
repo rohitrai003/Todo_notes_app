@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/controller/token_controller.dart';
 import 'package:my_todo_app/src/constant/appColors.dart';
+import 'package:my_todo_app/src/provider/token_provider.dart';
 import 'package:my_todo_app/src/widgets/settingsComponents.dart';
 import 'package:my_todo_app/src/constant/screenSize.dart';
 import 'package:my_todo_app/src/provider/themeDataProvider.dart';
@@ -125,16 +125,10 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsComponents(
                 icon: Icon(Icons.logout),
                 title: "Logout",
-                onClick: () {
-                  setState(() {
-                    TokenController.token = "";
-                    TokenController().saveToken(TokenController.token);
-                  });
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignUpPage(),
-                      ));
+                onClick: () async {
+                  await Provider.of<TokenProvider>(context, listen: false)
+                      .clearToken();
+                  Navigator.pushReplacementNamed(context, '/signup');
                 },
                 hasSwitch: false,
               )

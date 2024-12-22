@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:my_todo_app/src/constant/appColors.dart';
+import 'package:my_todo_app/src/controller/todo_controller.dart';
+import 'package:my_todo_app/src/model/TodoModel.dart';
 
 // ignore: must_be_immutable
 class EditTodoPage extends StatefulWidget {
   String initialValue;
   String userId;
-  String id;
-  bool isCompleted;
-  bool isImportant;
-  String createdOn;
-  String deadline;
+  final TodoModel todo;
+  final String token;
+
   EditTodoPage(
       {super.key,
-      required this.deadline,
-      required this.isCompleted,
-      required this.createdOn,
-      required this.isImportant,
+      required this.token,
+      required this.todo,
       required this.initialValue,
-      required this.id,
       required this.userId});
 
   @override
@@ -51,7 +48,25 @@ class _EditTodoPageState extends State<EditTodoPage> {
             ),
             Expanded(child: Container()),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  final success = await TodoController().updateTodo(
+                    _controller.text,
+                    widget.userId,
+                    widget.todo.sId!,
+                    widget.token,
+                  );
+                  if (success) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Todo updated successfully!')),
+                    );
+                    Navigator.pushReplacementNamed(context, '/home',
+                        arguments: widget.token);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Failed to update Todo')),
+                    );
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: yellow,
                     fixedSize:

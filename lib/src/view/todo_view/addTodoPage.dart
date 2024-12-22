@@ -2,14 +2,14 @@ import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:my_todo_app/src/constant/appColors.dart";
 import "package:my_todo_app/src/constant/screenSize.dart";
-import "package:my_todo_app/src/controller/token_controller.dart";
 import "package:my_todo_app/src/model/TodoModel.dart";
 import "package:my_todo_app/src/provider/todo_provider.dart";
 import "package:provider/provider.dart";
 
 class AddTodoPage extends StatefulWidget {
   final String userId;
-  const AddTodoPage({super.key, required this.userId});
+  final String token;
+  const AddTodoPage({super.key, required this.userId, required this.token});
 
   @override
   State<AddTodoPage> createState() => _AddTodoPageState();
@@ -107,7 +107,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                       createdOn: TimeOfDay.now().format(context),
                       isCompleted: false,
                       deadline: formattedDate),
-                  TokenController.token,
+                  widget.token,
                   context),
               child: Text(
                 "Add",
