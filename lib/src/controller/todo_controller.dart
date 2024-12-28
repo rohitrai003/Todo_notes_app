@@ -1,8 +1,8 @@
 import "dart:convert";
 
 import "package:http/http.dart" as http;
-import "package:my_todo_app/src/constant/api.dart";
-import "package:my_todo_app/src/model/TodoModel.dart";
+import "package:todo_note_app/src/constant/api.dart";
+import "package:todo_note_app/src/model/TodoModel.dart";
 
 class TodoController {
   Future addTodo(TodoModel model, String token) async {

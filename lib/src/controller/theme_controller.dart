@@ -1,4 +1,4 @@
-import "package:my_todo_app/src/provider/themeDataProvider.dart";
+import "package:todo_note_app/src/provider/themeDataProvider.dart";
 import "package:provider/provider.dart";
 import "package:shared_preferences/shared_preferences.dart";
 

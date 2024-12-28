@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/constant/appColors.dart';
-import 'package:my_todo_app/src/controller/todo_controller.dart';
-import 'package:my_todo_app/src/model/TodoModel.dart';
+import 'package:todo_note_app/src/constant/appColors.dart';
+import 'package:todo_note_app/src/controller/todo_controller.dart';
+import 'package:todo_note_app/src/model/TodoModel.dart';
 
 // ignore: must_be_immutable
 class EditTodoPage extends StatefulWidget {

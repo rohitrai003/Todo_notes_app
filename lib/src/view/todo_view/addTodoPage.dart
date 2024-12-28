@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
-import "package:my_todo_app/src/constant/appColors.dart";
-import "package:my_todo_app/src/constant/screenSize.dart";
-import "package:my_todo_app/src/model/TodoModel.dart";
-import "package:my_todo_app/src/provider/todo_provider.dart";
+import "package:todo_note_app/src/constant/appColors.dart";
+import "package:todo_note_app/src/constant/screenSize.dart";
+import "package:todo_note_app/src/model/TodoModel.dart";
+import "package:todo_note_app/src/provider/todo_provider.dart";
 import "package:provider/provider.dart";
 
 class AddTodoPage extends StatefulWidget {
@@ -86,19 +86,12 @@ class _AddTodoPageState extends State<AddTodoPage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             Container(
-              padding: EdgeInsets.only(left: 15),
-              child: Text(
-                'Dead Line : $formattedDate',
-                style: TextStyle(fontFamily: "Abeezee", fontSize: 16),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
+                padding: EdgeInsets.only(left: 15),
+                child: Text('Dead Line : $formattedDate',
+                    style: TextStyle(fontFamily: "Abeezee", fontSize: 16))),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => todoProvider.addTodoProvider(
                   TodoModel(

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
-        android:label="My Todo and Notes App"
+        android:label="Todo Note App"
         android:name="${applicationName}"
         android:icon="@mipmap/my_personal_todo_and_notes_app"
         android:enableOnBackInvokedCallback="true"

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/controller/auth_controller.dart';
+import 'package:todo_note_app/src/controller/auth_controller.dart';
 
 class UserDataProvider extends ChangeNotifier {
   bool dataLoading = false;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/constant/appColors.dart';
-import 'package:my_todo_app/src/provider/token_provider.dart';
-import 'package:my_todo_app/src/widgets/settingsComponents.dart';
-import 'package:my_todo_app/src/constant/screenSize.dart';
-import 'package:my_todo_app/src/provider/themeDataProvider.dart';
-import 'package:my_todo_app/src/view/auth_view/signUpPage.dart';
+import 'package:todo_note_app/src/constant/appColors.dart';
+import 'package:todo_note_app/src/provider/token_provider.dart';
+import 'package:todo_note_app/src/widgets/settingsComponents.dart';
+import 'package:todo_note_app/src/constant/screenSize.dart';
+import 'package:todo_note_app/src/provider/themeDataProvider.dart';
+import 'package:todo_note_app/src/view/auth_view/signUpPage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/model/UserSignInModel.dart';
-import 'package:my_todo_app/src/provider/token_provider.dart';
-import 'package:my_todo_app/src/view/main_view/homePage.dart';
+import 'package:todo_note_app/src/model/UserSignInModel.dart';
+import 'package:todo_note_app/src/provider/token_provider.dart';
+import 'package:todo_note_app/src/view/main_view/homePage.dart';
 
 import '../controller/auth_controller.dart';
 

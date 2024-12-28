@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/constant/appColors.dart';
-import 'package:my_todo_app/src/widgets/customTextInput.dart';
-import 'package:my_todo_app/src/constant/screenSize.dart';
-import 'package:my_todo_app/src/provider/themeDataProvider.dart';
-import 'package:my_todo_app/src/view/auth_view/signInPage.dart';
+import 'package:todo_note_app/src/constant/appColors.dart';
+import 'package:todo_note_app/src/widgets/customTextInput.dart';
+import 'package:todo_note_app/src/constant/screenSize.dart';
+import 'package:todo_note_app/src/provider/themeDataProvider.dart';
+import 'package:todo_note_app/src/view/auth_view/signInPage.dart';
 
 import 'package:provider/provider.dart';
 

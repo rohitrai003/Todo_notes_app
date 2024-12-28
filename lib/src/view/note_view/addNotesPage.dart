@@ -1,10 +1,15 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/constant/appColors.dart';
-import 'package:my_todo_app/src/constant/screenSize.dart';
+import 'package:todo_note_app/src/constant/appColors.dart';
+import 'package:todo_note_app/src/constant/screenSize.dart';
+import 'package:todo_note_app/src/controller/note_controller.dart';
+import 'package:todo_note_app/src/model/NotesModel.dart';
+import 'package:todo_note_app/src/provider/token_provider.dart';
 
 class AddNotesPage extends StatefulWidget {
+  final String token;
+  AddNotesPage({required this.token});
   @override
   _AddNotesPageState createState() => _AddNotesPageState();
 }
@@ -71,12 +76,23 @@ class _AddNotesPageState extends State<AddNotesPage> {
                 height: 50,
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_titleController.text.isEmpty &&
                       _subtitleController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("You can't save an empty notes.")));
-                  } else {}
+                  } else {
+                    final response = await NoteController().addNotes(
+                        NotesModel(
+                          title: _titleController.text,
+                          subtitle: _subtitleController.text,
+                          isImportant: false,
+                        ),
+                        widget.token);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(response.toString())));
+                    Navigator.pop(context);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: yellow,

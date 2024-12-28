@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/provider/authProvider.dart';
-import 'package:my_todo_app/src/provider/bottomBarToggle.dart';
-import 'package:my_todo_app/src/provider/themeDataProvider.dart';
-import 'package:my_todo_app/src/provider/todo_provider.dart';
-import 'package:my_todo_app/src/provider/token_provider.dart';
-import 'package:my_todo_app/src/provider/userDataProvider.dart';
-import 'package:my_todo_app/src/routes/route_generator.dart';
-import 'package:my_todo_app/src/view/splash_screen.dart';
+import 'package:todo_note_app/src/provider/authProvider.dart';
+import 'package:todo_note_app/src/provider/bottomBarToggle.dart';
+import 'package:todo_note_app/src/provider/themeDataProvider.dart';
+import 'package:todo_note_app/src/provider/todo_provider.dart';
+import 'package:todo_note_app/src/provider/token_provider.dart';
+import 'package:todo_note_app/src/provider/userDataProvider.dart';
+import 'package:todo_note_app/src/routes/route_generator.dart';
+import 'package:todo_note_app/src/view/splash_screen.dart';
 import "package:provider/provider.dart";
 
 void main() {

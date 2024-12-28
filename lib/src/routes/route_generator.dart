@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/view/auth_view/signInPage.dart';
-import 'package:my_todo_app/src/view/auth_view/signUpPage.dart';
-import 'package:my_todo_app/src/view/main_view/homePage.dart';
-import 'package:my_todo_app/src/view/splash_screen.dart';
+import 'package:todo_note_app/src/view/auth_view/signInPage.dart';
+import 'package:todo_note_app/src/view/auth_view/signUpPage.dart';
+import 'package:todo_note_app/src/view/main_view/homePage.dart';
+import 'package:todo_note_app/src/view/splash_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

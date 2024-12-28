@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/constant/appColors.dart';
-import 'package:my_todo_app/src/provider/token_provider.dart';
-import 'package:my_todo_app/src/provider/userDataProvider.dart';
-import 'package:my_todo_app/src/widgets/dateAndDay.dart';
-import 'package:my_todo_app/src/widgets/exitPopUpDialog.dart';
-import 'package:my_todo_app/src/constant/icons.dart';
-import 'package:my_todo_app/src/provider/bottomBarToggle.dart';
-import 'package:my_todo_app/src/provider/themeDataProvider.dart';
-import 'package:my_todo_app/src/view/note_view/notesPage.dart';
-import 'package:my_todo_app/src/view/main_view/settingsPage.dart';
-import 'package:my_todo_app/src/view/todo_view/todoPage.dart';
+import 'package:todo_note_app/src/constant/appColors.dart';
+import 'package:todo_note_app/src/provider/userDataProvider.dart';
+import 'package:todo_note_app/src/widgets/dateAndDay.dart';
+import 'package:todo_note_app/src/widgets/exitPopUpDialog.dart';
+import 'package:todo_note_app/src/constant/icons.dart';
+import 'package:todo_note_app/src/provider/bottomBarToggle.dart';
+import 'package:todo_note_app/src/provider/themeDataProvider.dart';
+import 'package:todo_note_app/src/view/note_view/notesPage.dart';
+import 'package:todo_note_app/src/view/main_view/settingsPage.dart';
+import 'package:todo_note_app/src/view/todo_view/todoPage.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,7 +42,12 @@ class _HomePageState extends State<HomePage> {
             userId: userDataProvider.userDetails["_id"] ?? "",
             token: widget.token)
       },
-      {"title": "Notes", "screen": NotesScreen(userId: "userId")},
+      {
+        "title": "Notes",
+        "screen": NotesScreen(
+            userId: userDataProvider.userDetails["_id"] ?? "",
+            token: widget.token)
+      },
       {
         "title": "Settings",
         "screen": SettingsPage(

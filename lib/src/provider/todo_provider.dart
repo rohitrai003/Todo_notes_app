@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/controller/todo_controller.dart';
-import 'package:my_todo_app/src/model/TodoModel.dart';
+import 'package:todo_note_app/src/controller/todo_controller.dart';
+import 'package:todo_note_app/src/model/TodoModel.dart';
 
 class TodoProvider extends ChangeNotifier {
   var todo = null;

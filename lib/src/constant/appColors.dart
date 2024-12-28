@@ -16,7 +16,7 @@ Color lightDarkTheme = const Color(0xFF404040);
 
 List notesColor = const [
   Color(0xFFF57F7F),
-  Color(0xFFB872FF),
+  Color.fromRGBO(184, 114, 255, 1),
   Color(0xFF7FF5EE),
   Color(0xFFDADADA),
   Color(0xFFF57FAA),

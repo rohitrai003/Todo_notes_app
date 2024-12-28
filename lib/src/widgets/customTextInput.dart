@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/src/constant/appColors.dart';
-import 'package:my_todo_app/src/constant/icons.dart';
+import 'package:todo_note_app/src/constant/appColors.dart';
+import 'package:todo_note_app/src/constant/icons.dart';
 
 // ignore: must_be_immutable
 class CustomTextInput extends StatefulWidget {

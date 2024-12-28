@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:my_todo_app/src/constant/appColors.dart';
-import 'package:my_todo_app/src/constant/icons.dart';
-import 'package:my_todo_app/src/controller/todo_controller.dart';
-import 'package:my_todo_app/src/model/TodoModel.dart';
-import 'package:my_todo_app/src/provider/themeDataProvider.dart';
-import 'package:my_todo_app/src/view/todo_view/editTodoPage.dart';
+import 'package:todo_note_app/src/constant/appColors.dart';
+import 'package:todo_note_app/src/constant/icons.dart';
+import 'package:todo_note_app/src/controller/todo_controller.dart';
+import 'package:todo_note_app/src/model/TodoModel.dart';
+import 'package:todo_note_app/src/provider/themeDataProvider.dart';
+import 'package:todo_note_app/src/view/todo_view/editTodoPage.dart';
 
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';

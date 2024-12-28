@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:my_todo_app/src/constant/api.dart';
-import 'package:my_todo_app/src/model/UserSignInModel.dart';
-import 'package:my_todo_app/src/model/userSignUpModel.dart';
+import 'package:todo_note_app/src/constant/api.dart';
+import 'package:todo_note_app/src/model/UserSignInModel.dart';
+import 'package:todo_note_app/src/model/userSignUpModel.dart';
 import 'package:http/http.dart' as http;
 
 class AuthController {
