@@ -43,6 +43,28 @@ class NoteController {
     }
   }
 
+  Future updateNotes(
+      String token, NotesModel model, String noteId, String userId) async {
+    try {
+      final _url = updateNotesUrl + userId + '/' + noteId;
+      print(_url);
+      final response = await http.put(Uri.parse(_url),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer $token"
+          },
+          body: jsonEncode(model.toJson()));
+      print(response.body);
+      if (response.statusCode == 200) {
+        return "Successfully Updated";
+      } else {
+        return "Error Occured";
+      }
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
   Future deleteNotes(String token, String userId, String noteId) async {
     try {
       String _url = deleteNotesUrl + userId + "/" + noteId;

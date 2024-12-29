@@ -60,11 +60,15 @@ class _HomePageState extends State<HomePage> {
       onPopInvokedWithResult: (didPop, result) async => showExitPopup(context),
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: themeProvider.isDark ? darkTheme : Colors.white,
           automaticallyImplyLeading: false,
           centerTitle: true,
           title: Text(
             pages[toggleProvider.index]["title"],
-            style: const TextStyle(fontSize: 35, fontFamily: "Abeezee"),
+            style: TextStyle(
+                fontSize: 35,
+                fontFamily: "Abeezee",
+                color: themeProvider.isDark ? white : black),
           ),
         ),
         body: userDataProvider.dataLoading
@@ -74,7 +78,7 @@ class _HomePageState extends State<HomePage> {
             : SafeArea(
                 child: Column(
                   children: [
-                    dateAndDay(),
+                    DateAndDayWidget(),
                     Expanded(
                       child: pages[toggleProvider.index]["screen"],
                     ),
@@ -82,6 +86,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: themeProvider.isDark ? darkTheme : Colors.white,
           currentIndex: toggleProvider.index,
           onTap: toggleProvider.toggleItems,
           selectedItemColor: themeProvider.isDark ? yellow : Colors.purple,

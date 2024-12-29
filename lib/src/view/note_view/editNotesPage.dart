@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_note_app/src/constant/appColors.dart';
 import 'package:todo_note_app/src/constant/screenSize.dart';
+import 'package:todo_note_app/src/model/NotesModel.dart';
 
 // ignore: must_be_immutable
 class EditNotesPage extends StatefulWidget {
@@ -12,7 +13,7 @@ class EditNotesPage extends StatefulWidget {
   });
   String title;
   String notes;
-  Function(String, String) updateNotes;
+  Function(NotesModel model) updateNotes;
 
   @override
   State<EditNotesPage> createState() => _EditNotesPageState();
@@ -77,7 +78,8 @@ class _EditNotesPageState extends State<EditNotesPage> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    widget.updateNotes(_title.text, _notes.text);
+                    widget.updateNotes(
+                        NotesModel(title: _title.text, subtitle: _notes.text));
 
                     Navigator.pop(context);
                   },

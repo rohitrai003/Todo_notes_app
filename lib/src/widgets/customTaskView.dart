@@ -81,10 +81,10 @@ class _CustomTaskViewState extends State<CustomTaskView>
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(
-                        width: 1,
-                        color: themeProvider.isDark == true ? white : black),
+                        width: 1, color: themeProvider.isDark ? white : black),
                     borderRadius: BorderRadius.circular(5)),
                 child: ListTile(
+                  tileColor: Colors.transparent,
                   leading: Checkbox(
                     value: widget.todo.isCompleted!,
                     activeColor: green,
@@ -112,8 +112,12 @@ class _CustomTaskViewState extends State<CustomTaskView>
                                   : null)),
                       Text(
                         "Created on: ${formattedDate} at ${formattedTime}",
-                        style: const TextStyle(
-                            fontSize: 10, fontFamily: "Abeezee"),
+                        style: TextStyle(
+                            color: themeProvider.isDark
+                                ? Colors.white
+                                : Colors.black,
+                            fontSize: 10,
+                            fontFamily: "Abeezee"),
                       )
                     ],
                   ),
@@ -136,10 +140,10 @@ class _CustomTaskViewState extends State<CustomTaskView>
                                     ),
                                     type: PageTransitionType.rightToLeft));
                           },
-                          child: ImageIcon(
-                            AssetImage(editIcon),
-                            size: 30,
-                          ),
+                          child: Icon(Icons.edit,
+                              color:
+                                  themeProvider.isDark == true ? white : black,
+                              size: 25),
                         ),
                         const SizedBox(
                           width: 20,

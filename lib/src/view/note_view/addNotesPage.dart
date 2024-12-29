@@ -5,7 +5,6 @@ import 'package:todo_note_app/src/constant/appColors.dart';
 import 'package:todo_note_app/src/constant/screenSize.dart';
 import 'package:todo_note_app/src/controller/note_controller.dart';
 import 'package:todo_note_app/src/model/NotesModel.dart';
-import 'package:todo_note_app/src/provider/token_provider.dart';
 
 class AddNotesPage extends StatefulWidget {
   final String token;
@@ -87,6 +86,7 @@ class _AddNotesPageState extends State<AddNotesPage> {
                           title: _titleController.text,
                           subtitle: _subtitleController.text,
                           isImportant: false,
+                          date: DateTime.now().toString(),
                         ),
                         widget.token);
                     ScaffoldMessenger.of(context).showSnackBar(

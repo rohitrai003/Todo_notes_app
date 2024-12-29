@@ -4,10 +4,18 @@ import 'package:todo_note_app/src/controller/theme_controller.dart';
 class ThemeDataProvider extends ChangeNotifier {
   bool isDark = false;
 
-  toggleTheme(context) {
+  ThemeDataProvider() {
+    _loadThemeState();
+  }
+
+  void _loadThemeState() async {
+    isDark = await ThemeController.loadDarkThemeState();
+    notifyListeners();
+  }
+
+  void toggleTheme() async {
     isDark = !isDark;
-    print("Theme (Is Dark): ${isDark}");
-    ThemeController.saveDarkThemeState(context);
+    await ThemeController.saveDarkThemeState(isDark);
     notifyListeners();
   }
 }

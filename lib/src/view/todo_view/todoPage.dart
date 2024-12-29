@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_note_app/src/constant/appColors.dart';
-
 import 'package:todo_note_app/src/constant/screenSize.dart';
 import 'package:todo_note_app/src/controller/todo_controller.dart';
 import 'package:todo_note_app/src/model/TodoModel.dart';
+import 'package:todo_note_app/src/provider/themeDataProvider.dart';
 import 'package:todo_note_app/src/view/todo_view/addTodoPage.dart';
 import 'package:todo_note_app/src/widgets/customTaskView.dart';
 import 'package:page_transition/page_transition.dart';
@@ -25,7 +26,11 @@ class _TodoScreenState extends State<TodoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeDataProvider>(context);
     return Scaffold(
+      backgroundColor: themeProvider.isDark
+          ? darkTheme
+          : Theme.of(context).scaffoldBackgroundColor,
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: purple,
         onPressed: () => Navigator.push(
@@ -77,27 +82,37 @@ class _TodoScreenState extends State<TodoScreen> {
                   return Center(child: Text("Something Error Occured"));
                 }
                 int length = response.length;
-                return ListView.builder(
-                  itemCount: length,
-                  itemBuilder: (context, index) {
-                    final data = response[index];
-                    return CustomTaskView(
-                      token: widget.token,
-                      userId: widget.userId,
-                      updateState: () {
-                        setState(() {});
-                      },
-                      todo: TodoModel(
-                        createdOn: data["createdOn"] ?? '',
-                        isImportant: data["isImportant"] ?? false,
-                        sId: data["_id"] ?? '',
-                        isCompleted: data["isCompleted"],
-                        title: data["title"] ?? '',
-                        deadline: data["deadline"],
-                      ),
-                    );
-                  },
-                );
+                return length == 0
+                    ? Center(
+                        child: Text(
+                          "No Todo Available 🙁",
+                          style: TextStyle(
+                            fontFamily: "Abeezee",
+                            fontSize: 20,
+                          ),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: length,
+                        itemBuilder: (context, index) {
+                          final data = response[index];
+                          return CustomTaskView(
+                            token: widget.token,
+                            userId: widget.userId,
+                            updateState: () {
+                              setState(() {});
+                            },
+                            todo: TodoModel(
+                              createdOn: data["createdOn"] ?? '',
+                              isImportant: data["isImportant"] ?? false,
+                              sId: data["_id"] ?? '',
+                              isCompleted: data["isCompleted"],
+                              title: data["title"] ?? '',
+                              deadline: data["deadline"],
+                            ),
+                          );
+                        },
+                      );
               },
             )),
           ],

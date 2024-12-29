@@ -49,8 +49,12 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeDataProvider>(context);
+    Color textColor = themeProvider.isDark ? white : black;
 
     return Scaffold(
+      backgroundColor: themeProvider.isDark
+          ? darkTheme
+          : Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -75,7 +79,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                   radius: screenHeight(context) * 0.034,
                                   child: Text(
                                     widget.name[0],
-                                    style: TextStyle(fontSize: 25),
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -90,19 +96,28 @@ class _SettingsPageState extends State<SettingsPage> {
                                   style: TextStyle(
                                       fontFamily: "Abeezee",
                                       fontSize: 18.0,
+                                      color: textColor,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   widget.email,
                                   style: TextStyle(
-                                      fontFamily: "Abeezee", fontSize: 15.0),
+                                    fontFamily: "Abeezee",
+                                    fontSize: 15.0,
+                                    color: textColor,
+                                  ),
                                 ),
                               ],
                             ),
                           )
                         ],
                       ),
-                      Text("Edit"),
+                      Text(
+                        "Edit",
+                        style: TextStyle(
+                          color: textColor,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -119,7 +134,7 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsComponents(
                 icon: Icon(Icons.logout),
                 title: "Dark Mode",
-                onClick: () => themeProvider.toggleTheme(context),
+                onClick: () => themeProvider.toggleTheme(),
                 hasSwitch: true,
               ),
               SettingsComponents(

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_note_app/src/constant/appColors.dart';
 import 'package:todo_note_app/src/controller/note_controller.dart';
-import 'package:todo_note_app/src/provider/token_provider.dart';
+import 'package:todo_note_app/src/model/NotesModel.dart';
+import 'package:todo_note_app/src/provider/themeDataProvider.dart';
 import 'package:todo_note_app/src/view/note_view/addNotesPage.dart';
+import 'package:todo_note_app/src/view/note_view/editNotesPage.dart';
+import 'package:todo_note_app/src/widgets/customNoteView.dart';
 
 class NotesScreen extends StatefulWidget {
   final String userId;
@@ -23,77 +27,56 @@ class _NotesScreenState extends State<NotesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeDataProvider>(context);
     return Scaffold(
+      backgroundColor: themeProvider.isDark
+          ? darkTheme
+          : Theme.of(context).scaffoldBackgroundColor,
       body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: FutureBuilder(
             future: NoteController().getNotes(widget.token),
             builder: (context, snapshot) {
               final data = snapshot.data;
+              print(data);
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
+              } else if (data == "Error Occured") {
+                return Center(
+                    child: Text(
+                  "No Notes Found\nYou can add one 😊",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontFamily: 'Abeezee', fontSize: 20),
+                ));
+              } else if (data["statusCode"] == 404) {
+                return const Center(
+                  child: Text("Unauthorized"),
+                );
               } else if (snapshot.data["statusCode"] == 200) {
-                print(data);
-                return GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      final response = data["message"][index];
-                      return Card(
-                        color: notesColor[index % notesColor.length],
-                        elevation: 0,
-                        child: ListTile(
-                          onLongPress: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text("Delete Note"),
-                                content: const Text(
-                                    "Are you sure you want to delete this note?"),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("No"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () async {
-                                      final res = await NoteController()
-                                          .deleteNotes(widget.token,
-                                              widget.userId, response["_id"]);
-
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text(res.toString())));
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("Yes"),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          title: Text(
-                            response["title"],
-                            style:
-                                TextStyle(fontFamily: 'Abeezee', fontSize: 20),
-                          ),
-                          subtitle: Text(
-                            response["subtitle"],
-                            style: TextStyle(
-                              fontFamily: "Abeezee",
-                            ),
-                          ),
-                        ),
-                      );
-                    });
+                if (data["message"] is List) {
+                  return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+                      itemCount: data["message"].length,
+                      itemBuilder: (context, index) {
+                        final response = data["message"][index];
+                        return CustomNoteView(
+                            model: NotesModel(
+                                title: response['title'],
+                                subtitle: response['subtitle']),
+                            index: index,
+                            token: widget.token,
+                            userId: widget.userId,
+                            id: response['_id']);
+                      });
+                } else {
+                  return Text(data["message"]);
+                }
               } else {
                 return const Center(
-                  child: Text("No Notes"),
+                  child: Text("There was an error occured.😕"),
                 );
               }
             },

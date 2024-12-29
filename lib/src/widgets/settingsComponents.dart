@@ -20,6 +20,7 @@ class SettingsComponents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeDataProvider>(context);
+    Color textColor = themeProvider.isDark ? Colors.white : Colors.black;
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
         child: InkWell(
@@ -36,6 +37,7 @@ class SettingsComponents extends StatelessWidget {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: textColor),
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.grey.shade200,
                     ),
@@ -45,16 +47,17 @@ class SettingsComponents extends StatelessWidget {
                   ),
                   title: Text(
                     title,
-                    style: TextStyle(fontFamily: "Abeezee", fontSize: 18),
+                    style: TextStyle(
+                        fontFamily: "Abeezee", fontSize: 18, color: textColor),
                   ),
                   trailing: hasSwitch
                       ? Switch(
                           value: themeProvider.isDark,
                           onChanged: (value) {
-                            themeProvider.toggleTheme(context);
+                            onClick();
                           },
                         )
-                      : Icon(Icons.arrow_forward_ios),
+                      : Icon(Icons.arrow_forward_ios, color: textColor),
                 ))));
   }
 }

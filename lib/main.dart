@@ -25,15 +25,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-
-  final ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
-  );
-
-  final ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-  );
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
